@@ -1,0 +1,16 @@
+{% extends "index.html" %}
+
+{% block body %}
+<div class="row justify-content-sm-center">
+  <div class="col-sm-8">
+    <ul>
+      {% for post in posts %}
+      <li class="list-group-item">
+        <div class="lead"><a href="/posts/{{ post._id }}" class="lead">{{ post.title }}</a></div>
+        <a href="{{ post.url }}" target="_blank">{{ post.url }}<a>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+{% endblock %}
