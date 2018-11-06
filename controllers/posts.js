@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const { post } = require('../models');
+const { checkAuth } = require('../middlewares');
 
 // BASE POSTS ROUTES
 router.route('/posts')
@@ -10,7 +11,7 @@ router.route('/posts')
       next(new Error(`Error while trying to find all posts! - ${error.message}`));
     });
   })
-  .post((req, res, next) => {
+  .post(checkAuth, (req, res, next) => {
     post.create(req.body).then(post => {
       res.redirect('/');
     }).catch(error => {
