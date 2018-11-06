@@ -1,22 +1,26 @@
-const express = require('express')
-const nunjucks = require('nunjucks')
-const app = express()
-const port = process.env.PORT || 5000
+const express = require('express');
+const nunjucks = require('nunjucks');
+const app = express();
+const port = process.env.PORT || 5000;
 const controllers = require('./controllers');
-const { notFoundHandler, errorHandler } = require('./middlewares')
+const { notFoundHandler, errorHandler } = require('./middlewares');
+const { db } = require('./utils');
+
+// Connect to MongoDB
+const dbConnection = db.connect();
 
 // Configure nunjucks templating engine
 const nEnv = nunjucks.configure('views', {
   autoescape: true,
   express: app
-})
+});
 
 // Congigure express
-app.set('view engine', 'html')
-app.use(express.json())
+app.set('view engine', 'html');
+app.use(express.json());
 app.use(express.urlencoded({
   extended: false
-}))
+}));
 
 // Import our controllers
 for (var i in controllers) {
@@ -33,8 +37,8 @@ app.use(errorHandler);
 
 // Start our app and listen for requests
 app.listen(port, () => {
-  console.log(`App started on port ${port}`)
-})
+  console.log(`App started on port ${port}`);
+});
 
 // Export our app to be used for tests
-module.exports = app
+module.exports = app;
