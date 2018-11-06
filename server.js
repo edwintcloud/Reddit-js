@@ -32,7 +32,7 @@ for (var i in controllers) {
 // If no routes found then send to notFoundHandler
 app.use(notFoundHandler);
 
-// All errors will be sent here and displayed to the user in json format
+// All errors will be sent here and displayed to the user
 app.use(errorHandler);
 
 // Start our app and listen for requests
