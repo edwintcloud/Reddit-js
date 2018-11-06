@@ -1,11 +1,11 @@
 const router = require('express').Router();
-const { post } = require('../models');
+const { post, user } = require('../models');
 const { checkAuth } = require('../middlewares');
 
 // BASE POSTS ROUTES
 router.route('/posts')
   .get((req, res, next) => {
-    post.find().lean().then(posts => {
+    post.find().populate('author').lean().then(posts => {
       res.render('posts-index', { posts });
     }).catch(error => {
       next(new Error(`Error while trying to find all posts! - ${error.message}`));
@@ -13,6 +13,15 @@ router.route('/posts')
   })
   .post(checkAuth, (req, res, next) => {
     post.create(req.body).then(post => {
+      return user.updateOne({ _id: req.session.user._id }, {
+        $push : {
+          posts: {
+            $each: [post._id],
+            $position: 0
+          }
+        }
+      }).lean();
+    }).then(post => {
       res.redirect('/');
     }).catch(error => {
       next(new Error(`Error while trying to create new post! - ${error.message}`));
@@ -32,7 +41,7 @@ router.get('/posts/new', (req, res, next) => {
 
 // SHOW ONE POST BY ID ROUTE
 router.get('/posts/:id', (req, res, next) => {
-  post.find({ _id: req.params.id }).populate('comments').lean().then(post => {
+  post.find({ _id: req.params.id }).populate('comments').populate('author').lean().then(post => {
     res.render('posts-show', { post: post[0] });
   }).catch(error => {
     next(new Error(`Error while trying to find post by id! - ${error.message}`));
@@ -41,7 +50,7 @@ router.get('/posts/:id', (req, res, next) => {
 
 // SHOW SUBREDDIT ROUTE
 router.get('/n/:subreddit', (req, res, next) => {
-  post.find({ subreddit: req.params.subreddit }).lean().then(posts => {
+  post.find({ subreddit: req.params.subreddit }).populate('author').lean().then(posts => {
     res.render('posts-index', { posts });
   }).catch(error => {
     next(new Error(`Error while trying to find posts by subreddit! - ${error.message}`));

@@ -21,6 +21,7 @@
         <label for="post-subreddit">Subreddit</label>
         <input name="subreddit" type="text" class="form-control" id="post-subreddit" placeholder="Subreddit">
       </div>
+      <input type="hidden" name="author" value="{{ session._id }}">
       <div class='text-right'>
         <button type="submit" class="btn btn-primary">Create Post</button>
       </div>

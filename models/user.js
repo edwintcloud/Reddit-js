@@ -13,7 +13,11 @@ const UserSchema = mongoose.Schema({
     type: String,
     required: true,
     minlength: 6
-  }
+  },
+  posts: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Post'
+  }]
 }, { timestamps: true });
 
 // Hash password before saving User

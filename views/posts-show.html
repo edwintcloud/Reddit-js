@@ -5,12 +5,16 @@
   <div class="col-sm-6">
     <a href="{{ post.url }}" class="lead">{{ post.title }}</a>
     <p>{{ post.summary }}</p>
+    {% if session %}
     <form action="/posts/{{ post._id }}/comments" method="post">
       <textarea class='form-control' name="content" placeholder="Comment"></textarea>
       <div class="text-right mt-2">
         <button class="btn btn-primary btn-sm" type="submit">Save</button>
       </div>
+      <input type="hidden" name="author" value="{{ session._id }}">
     </form>
+    {% endif %}
+    
     {% for comment in post.comments %}
       <p>{{ comment.content }}</p>
     {% endfor %}
