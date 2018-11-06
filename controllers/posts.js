@@ -31,7 +31,7 @@ router.get('/posts/new', (req, res, next) => {
 
 // SHOW ONE POST BY ID ROUTE
 router.get('/posts/:id', (req, res, next) => {
-  post.find({ _id: req.params.id }).lean().then(post => {
+  post.find({ _id: req.params.id }).populate('comments').lean().then(post => {
     res.render('posts-show', { post: post[0] });
   }).catch(error => {
     next(new Error(`Error while trying to find post by id! - ${error.message}`));
@@ -45,7 +45,7 @@ router.get('/n/:subreddit', (req, res, next) => {
   }).catch(error => {
     next(new Error(`Error while trying to find posts by subreddit! - ${error.message}`));
   });
-})
+});
 
 // Export our router
 module.exports = router;

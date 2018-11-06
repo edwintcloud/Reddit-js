@@ -16,7 +16,11 @@ const PostSchema = mongoose.Schema({
   subreddit: {
     type: String,
     required: true
-  }
+  },
+  comments: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Comment'
+  }]
 }, { timestamps: true });
 
 module.exports = mongoose.model('Post', PostSchema);
