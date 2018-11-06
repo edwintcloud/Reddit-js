@@ -12,6 +12,10 @@ const PostSchema = mongoose.Schema({
   summary: {
     type: String,
     required: true
+  },
+  subreddit: {
+    type: String,
+    required: true
   }
 }, { timestamps: true });
 

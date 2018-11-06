@@ -8,7 +8,8 @@ const { post } = require('../../models');
 const testPost = {
   title: "testPostChai",
   url: "test",
-  summary: "test"
+  summary: "test",
+  subreddit: "test"
 };
 
 // setup chai to use http assertion
@@ -48,6 +49,17 @@ describe('Posts', () => {
   // NEW TEST
   it('should render a new posts form on /posts/new GET', async () => {
     const res = await chai.request(app).get('/');
+    res.should.have.status(200);
+    res.should.be.html;
+  });
+
+  // READ ALL BY SUBREDDIT TEST
+  it('should index all posts that match specified subreddit on /n/:subreddit GET', async () => {
+    // lets make a few test posts first
+    const newPosts = [new post(testPost), new post(testPost), new post(testPost)];
+    await post.insertMany(newPosts);
+    // now test the route 
+    const res = await chai.request(app).get(`/n/${testPost.subreddit}`);
     res.should.have.status(200);
     res.should.be.html;
   });
