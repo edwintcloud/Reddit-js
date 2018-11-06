@@ -18,10 +18,10 @@ router.route('/posts')
     });
   })
   .put((req, res, next) => {
-    
+    next(new Error(`Not implemented!`));
   })
   .delete((req, res, next) => {
-    
+    next(new Error(`Not implemented!`));
   });
 
 // NEW POST FORM ROUTE
