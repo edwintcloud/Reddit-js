@@ -6,8 +6,13 @@ router.post('/posts/:postId/comments', (req, res, next) => {
   comment.create(req.body)
     .then(comment => {
       return post.updateOne({ _id: req.params.postId }, {
-        $push: { comments: comment._id }
-      });
+        $push: { comments: 
+          {
+            $each: [comment._id],
+            $position: 0
+          }
+        }
+      }).lean();
     })
     .then(post => {
       res.redirect(`/posts/${req.params.postId}`);

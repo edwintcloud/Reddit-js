@@ -11,7 +11,7 @@
         <button class="btn btn-primary btn-sm" type="submit">Save</button>
       </div>
     </form>
-    {% for comment in post.comments | reverse %}
+    {% for comment in post.comments %}
       <p>{{ comment.content }}</p>
     {% endfor %}
   </div>
