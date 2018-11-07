@@ -2,7 +2,7 @@ const chai = require('chai');
 const chaiHttp = require('chai-http');
 const should = chai.should();
 const app = require('../../server');
-const { post } = require('../../models');
+const { post, user } = require('../../models');
 
 // test post to be used for tests
 const testPost = {
@@ -10,6 +10,13 @@ const testPost = {
   url: "test",
   summary: "test",
   subreddit: "test"
+};
+
+// create our testUser
+const testUser = {
+  username: 'chaiTestUser',
+  password: 'testpassword',
+  confirmPassword: 'testpassword'
 };
 
 // setup chai to use http assertion
@@ -21,15 +28,20 @@ describe('Posts', () => {
   // delete test posts after each test
   afterEach(async() => {
     await post.deleteMany({ title: testPost.title });
+    await user.deleteMany({ username: testUser.username });
   });
 
   // CREATE TEST
   it('should create a single post on /posts POST', async () => {
-    const res = await chai.request(app).post('/posts').send(testPost);
+    const agent = chai.request.agent(app);
+    const newUser = await user.create(testUser);
+    await agent.post(`/users/login`).send(testUser);
+    const res = await agent.post('/posts').send(testPost);
     const posts = await post.find({ title: testPost.title }).lean();
     posts.should.have.length(1);
     res.should.have.status(200);
     res.should.be.html;
+    agent.close();
   });
 
   // READ ONE TEST
