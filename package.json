@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon server.js -e html",
+    "start": "nodemon server.js -e html,js",
     "test": "mocha --exit tests/**/*"
   },
   "author": "",

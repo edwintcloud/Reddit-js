@@ -1,0 +1,11 @@
+{% for comment in post.comments %}
+<div class="col-xs-12">
+  <div class="card my-2">
+    <div class="card-body">
+        <p>{{ comment.content }}</p>
+        <a href="/posts/{{ post._id }}/comments/{{ comment._id }}/replies/new" style="float: right;">Reply</a>
+    </div>
+  </div>
+
+</div>
+{% endfor %}
