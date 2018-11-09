@@ -57,5 +57,29 @@ router.get('/n/:subreddit', (req, res, next) => {
   });
 });
 
+// UpVote Route
+router.put('/posts/:id/upvote', (req, res, next) => {
+  post.findById(req.params.id).then(post => {
+    post.votes['up'] += 1;
+    post.votes['total'] += 1;
+    post.save();
+    res.send();
+  }).catch(error => {
+    next(new Error(`Unable to upvote - ${error.message}`))
+  });
+});
+
+// DownVote Route
+router.put('/posts/:id/downvote', (req, res, next) => {
+  post.findById(req.params.id).then(post => {
+    post.votes['down'] += 1;
+    post.votes['total'] -= 1;
+    post.save();
+    res.send();
+  }).catch(error => {
+    next(new Error(`Unable to downvote - ${error.message}`))
+  });
+});
+
 // Export our router
 module.exports = router;

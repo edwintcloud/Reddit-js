@@ -1,15 +1,38 @@
 {% extends "index.html" %}
 
 {% block body %}
+<style>
+  .flexBox {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .fa-chevron-up:hover {
+    color: green;
+  }
+  .fa-chevron-down:hover {
+    color: red;
+  }
+</style>
 <div class="row justify-content-sm-center">
   <div class="col-sm-8">
     <ul>
       {% for post in posts %}
-      <li class="list-group-item">
-        <div class="lead"><a href="/posts/{{ post._id }}" class="lead">{{ post.title }}</a></div>
-        <p class="ml-2  mb-0">by: {{ post.author.username }}</p>
-        <a href="{{ post.url }}" target="_blank">{{ post.url }}<a>
-        <div class="text-right"><a href="/n/{{ post.subreddit }}">{{ post.subreddit }}</a></div>
+      <li class="list-group-item flexBox">
+        <div>
+          <div class="lead"><a href="/posts/{{ post._id }}" class="lead">{{ post.title }}</a></div>
+          <p class="ml-2  mb-0">by: {{ post.author.username }}</p>
+          <a href="{{ post.url }}" target="_blank">{{ post.url }}</a>
+        </div>
+    
+        <div class="text-right mt-2">
+          <span id="upCount">{{ post.votes['up'] }}</span>
+          <i class="fas fa-chevron-up"onclick="voteUp(this);" postId="{{ post._id }}"></i>
+          <span id="downCount">{{ post.votes['down'] }}</span>
+          <i class="fas fa-chevron-down"onclick="voteDown(this);" postId="{{ post._id }}"></i>
+          <p id="totalCount" class="text-right m-0">Total Votes: <span id="total">{{ post.votes['total'] }}</span></p>
+          <div class="text-right"><a href="/n/{{ post.subreddit }}">{{ post.subreddit }}</a></div>
+        </div>
       </li>
       {% endfor %}
     </ul>

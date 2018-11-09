@@ -24,7 +24,23 @@ const PostSchema = mongoose.Schema({
   author: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User'
-  }
+  },
+  votes: 
+    {
+      up: {
+        type: Number,
+        default: 0
+      },
+      down: {
+        type: Number,
+        default: 0
+      },
+      total: {
+        type: Number,
+        default: 0
+      }
+    }
+
 }, { timestamps: true });
 
 module.exports = mongoose.model('Post', PostSchema);

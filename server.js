@@ -33,6 +33,7 @@ const nEnv = nunjucks.configure('views', {
 // Congigure express
 app.set('view engine', 'html');
 app.use(express.json());
+app.use(express.static('static'));
 app.use(express.urlencoded({
   extended: false
 }));
