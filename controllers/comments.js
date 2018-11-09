@@ -29,7 +29,7 @@ router.get("/posts/:postId/comments/:commentId/replies/new", checkAuth, (req, re
 router.post('/posts/:postId/comments/:commentId/replies', checkAuth, (req, res, next) => {
   comment.create(req.body).then(newComment => {
     comment.findById(req.params.commentId).then(parentComment => {
-      parentComment.replies.unshift(newComment._id);
+      parentComment.replies.push(newComment._id);
       parentComment.save();
       res.redirect(`/posts/${req.params.postId}`);
     }).catch(error => {

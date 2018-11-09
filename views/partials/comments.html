@@ -1,3 +1,17 @@
+
+{% macro repliesMacro(reply) %}
+<div class="col-xs-12" style="margin-left: 40px;">
+  <div class="card my-2">
+    <div class="card-body">
+        <p>{{ reply.content }}</p>
+        <a href="/posts/{{ post._id }}/comments/{{ reply._id }}/replies/new" style="float: right;">Reply</a>
+    </div>
+  </div>
+  {% for reply in reply.replies %}
+    {{ repliesMacro(reply) }}
+  {% endfor %}
+</div>
+{% endmacro %}
 {% for comment in post.comments %}
 <div class="col-xs-12">
   <div class="card my-2">
@@ -6,6 +20,9 @@
         <a href="/posts/{{ post._id }}/comments/{{ comment._id }}/replies/new" style="float: right;">Reply</a>
     </div>
   </div>
-
+  {% for reply in comment.replies %}
+    {{ repliesMacro(reply) }}
+  {% endfor %}
 </div>
 {% endfor %}
+
