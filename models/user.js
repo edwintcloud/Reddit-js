@@ -17,7 +17,11 @@ const UserSchema = mongoose.Schema({
   posts: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Post'
-  }]
+  }],
+  admin: {
+    type: Boolean,
+    default: false
+  }
 }, { timestamps: true });
 
 // Hash password before saving User

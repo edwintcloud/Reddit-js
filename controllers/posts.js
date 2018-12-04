@@ -41,7 +41,7 @@ router.get('/posts/new', (req, res, next) => {
 
 // SHOW ONE POST BY ID ROUTE
 router.get('/posts/:id', (req, res, next) => {
-  post.find({ _id: req.params.id }).populate({ path: 'comments', populate: { path: 'replies' }}).populate('author').lean().then(post => {
+  post.find({ _id: req.params.id }).populate({ path: 'comments'}).populate('author').lean().then(post => {
     res.render('posts-show', { post: post[0] });
   }).catch(error => {
     next(new Error(`Error while trying to find post by id! - ${error.message}`));

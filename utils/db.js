@@ -8,7 +8,8 @@ const dbURI = process.env.MONGODB || `mongodb://localhost/${process.env.npm_pack
 const dbOptions = {
   useNewUrlParser: true,
   reconnectTries: Number.MAX_VALUE, // Never stop trying to reconnect
-  reconnectInterval: 500 // Reconnect every 500ms
+  reconnectInterval: 500, // Reconnect every 500ms
+  useCreateIndex: true
 };
 
 module.exports = {

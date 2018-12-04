@@ -13,6 +13,9 @@
     </ul>
     <form class="form-inline my-2 my-lg-0">
       {% if session %}
+      {% if session.admin %}
+      <a href="/admin" class="btn btn-warning navbar-btn mr-3">Admin Panel</a>
+      {% endif %}
       <a href="/posts/new" class="btn btn-primary navbar-btn">New Post</a>
       <span class="ml-5">Welcome {{ session.username }}!</span>
       <a href="/users/logout" class="btn btn-danger navbar-btn ml-3">Logout</a>
